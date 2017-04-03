@@ -1,0 +1,5 @@
+# -*- mode: sh -*-
+use_python() {
+    local python_root=$HOME/.pyenv/versions/$1
+    load_prefix "$python_root"
+}

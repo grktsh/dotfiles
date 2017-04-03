@@ -1,0 +1,16 @@
+[user]
+	name = grktsh
+	email = grktsh@gmail.com
+[color]
+	ui = auto
+[alias]
+	br = branch
+	ci = commit
+	co = checkout
+	st = status
+[core]
+	excludesfile = ~/.gitignore_global
+	preloadindex = true
+[ghq]
+	root = ~/src
+	root = ~/.go/src

@@ -1,0 +1,5 @@
+*.elc
+/.emacs.d/*
+!/.emacs.d/init.el
+/.emacs.d/skk/*
+!/.emacs.d/skk/init.el
