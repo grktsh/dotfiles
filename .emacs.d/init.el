@@ -186,7 +186,6 @@
 (global-font-lock-mode 1)
 
 ;; emacs-lisp
-(require 'ert)
 (use-package ert-async
   :config
   (remove-hook 'emacs-lisp-mode-hook 'ert--activate-font-lock-keywords)
