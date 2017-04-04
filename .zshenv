@@ -22,9 +22,6 @@ if which pyenv-virtualenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; f
 # Haskell
 path=($HOME/.cabal/bin(N-/) $path)
 
-# Google depot_tools
-path=($HOME/local/depot_tools(N-/) $path)
-
 # Google Cloud SDK
 path=($HOME/.local/share/google-cloud-sdk/bin(N-/) $path)
 
