@@ -506,22 +506,6 @@
 	       ("M-," . helm-gtags-find-rtag))
     (setq helm-gtags-ignore-case t))
 
-  (use-package helm-dash
-    :defer t
-    :init
-    (bind-key "d" 'helm-dash helm-command-map)
-    (bind-key "D" 'helm-dash-at-point helm-command-map)
-    :config
-    (setq helm-dash-common-docsets (helm-dash-installed-docsets))
-    (setq helm-dash-browser-func
-	  (lambda (url &optional _new-window)
-	    (interactive (browse-url-interactive-arg "URL: "))
-	    (start-process (concat "osascript " url) nil
-			   "osascript" "-e"
-			   (format
-			    "open location \"%s\""
-			    (replace-regexp-in-string "\"" "%22" url))))))
-
   (autoload 'haskell-ident-at-point "haskell-mode")
 
   (use-package helm-hoogle
