@@ -95,7 +95,7 @@ if which direnv > /dev/null; then
 fi
 
 # added by travis gem
-[ -f /Users/grktsh/.travis/travis.sh ] && source /Users/grktsh/.travis/travis.sh
+[ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '$HOME/.local/share/google-cloud-sdk/path.zsh.inc' ]; then
