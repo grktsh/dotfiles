@@ -75,6 +75,11 @@
   (setq-default indicate-empty-lines t))
 
 (setq-default indent-tabs-mode nil)
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    ;; Emacs Lisp Coding Conventions
+	    ;; Indent the file using the default indentation parameters.
+	    (setq indent-tabs-mode t)))
 
 (cond
  ((eq window-system 'mac)
@@ -129,13 +134,6 @@
   :config
   (setq show-paren-delay 0)
   (setq show-paren-style 'expression))
-
-(use-package sh-script
-  :defer t
-  :config
-  (add-hook 'sh-mode-hook
-	    (lambda()
-	      (setq indent-tabs-mode nil))))
 
 ;; savehist
 (setq history-length t)
@@ -195,11 +193,6 @@
   (add-hook 'emacs-lisp-mode-hook 'ert-async-activate-font-lock-keywords))
 (add-to-list 'auto-mode-alist '("/Cask\\'" . emacs-lisp-mode))
 (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    ;; Emacs Lisp Coding Conventions
-	    ;; Indent the file using the default indentation parameters.
-	    (setq indent-tabs-mode t)))
 
 (use-package flyspell
   :if (executable-find "aspell")
