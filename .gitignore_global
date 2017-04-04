@@ -9,6 +9,8 @@ GTAGS
 \#*\#
 .tern-port
 
+.idea/
+
 .env
 .envrc
 
