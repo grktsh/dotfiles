@@ -64,7 +64,6 @@
 (setq read-file-name-completion-ignore-case nil)
 (setq gc-cons-threshold 8000000)
 (setq mouse-drag-copy-region t)
-(setq line-spacing 1)
 
 (setq custom-file (locate-user-emacs-file "custom.el"))
 
@@ -73,6 +72,8 @@
 
 (when window-system
   (setq-default indicate-empty-lines t))
+
+(setq-default line-spacing 1)
 
 (setq-default indent-tabs-mode nil)
 (add-hook 'emacs-lisp-mode-hook
