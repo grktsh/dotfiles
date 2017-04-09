@@ -317,6 +317,10 @@
   (setq whitespace-global-modes '(not go-mode mew-summary-mode))
   (global-whitespace-mode 1))
 
+(use-package direnv
+  :config
+  (direnv-mode))
+
 (use-package solarized-light-theme
   :init
   (setq solarized-use-variable-pitch nil)
