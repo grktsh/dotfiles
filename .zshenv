@@ -17,7 +17,11 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # Python
 export PYTHON_BUILD_SKIP_MIRROR=1
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 if which pyenv-virtualenv > /dev/null; then eval "$(pyenv virtualenv-init -)"; fi
+
+# Node
+if which nodenv > /dev/null; then eval "$(nodenv init -)"; fi
 
 # Haskell
 path=($HOME/.cabal/bin(N-/) $path)
