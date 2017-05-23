@@ -467,9 +467,9 @@
   (use-package popwin
     :config
     (add-hook 'helm-after-initialize-hook
-              (lambda ()
-                (popwin:display-buffer helm-buffer t)
-                (popwin-mode -1)))
+	      (lambda ()
+		(popwin:display-buffer helm-buffer t)
+		(popwin-mode -1)))
     (add-hook 'helm-cleanup-hook #'popwin-mode))
 
   :config
@@ -682,11 +682,11 @@
     (autoload 'navbarx-eyebrowse "navbarx-eyebrowse"))
 
   (setq navbar-item-list
-        (list
-         (and (locate-library "elscreen") 'navbarx-elscreen)
-         'navbarx-glue
-         (and (locate-library "mew") 'navbarx-mew)
-         'navbarx-time))
+	(list
+	 (and (locate-library "elscreen") 'navbarx-elscreen)
+	 'navbarx-glue
+	 (and (locate-library "mew") 'navbarx-mew)
+	 'navbarx-time))
 
   (setq display-time-day-and-date t)
   (setq display-time-24hr-format t)
