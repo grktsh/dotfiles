@@ -389,6 +389,10 @@
   :init
   (bind-key "C-x C-d" 'direx:jump-to-directory-other-window))
 
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1))
+
 (use-package elscreen
   :defer t
   :init
