@@ -30,6 +30,7 @@ path=($HOME/.cabal/bin(N-/) $path)
 
 # Google Cloud SDK
 path=($HOME/.local/share/google-cloud-sdk/bin(N-/) $path)
+export CLOUDSDK_PYTHON=/usr/bin/python
 
 # Go
 export GOPATH=$HOME/.go
