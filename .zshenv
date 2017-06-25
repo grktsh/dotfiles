@@ -1,3 +1,5 @@
+setopt no_global_rcs
+
 export LANG=ja_JP.UTF-8
 
 typeset -U path manpath
