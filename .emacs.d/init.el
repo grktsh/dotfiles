@@ -361,14 +361,15 @@
     (set-face-attribute 'show-paren-match nil
 			:weight 'unspecified)))
 
-(use-package quiet-save
+(use-package super-save
+  :diminish super-save-mode
   :init
   (setq auto-save-default nil)
-  (setq quiet-save-exclude '("/\\.emacs\\.d/elpa/"
-			     (lambda () (overlays-in (point-min) (point-max)))))
-  (setq quiet-save-keep '("\\.md\\'" quiet-save-vc-root))
   :config
-  (quiet-save-mode))
+  (setq super-save-idle-duration 1)
+  (setq super-save-auto-save-when-idle t)
+  (add-to-list 'super-save-triggers "elscreen-goto")
+  (super-save-mode 1))
 
 (use-package aggressive-indent
   :defer t
