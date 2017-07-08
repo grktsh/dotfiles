@@ -726,10 +726,10 @@
     :config
     (defadvice recentf-save-list (around my/shut-up activate)
       (shut-up
-       ad-do-it))
+	ad-do-it))
     (defadvice recentf-cleanup (around my/shut-up activate)
       (shut-up
-       ad-do-it)))
+	ad-do-it)))
 
   (use-package recentf-ext))
 
