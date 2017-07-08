@@ -623,6 +623,8 @@
 
 (use-package magit
   :defer t
+  :init
+  (bind-key "C-c g" 'magit-status)
   :config
   (setq magit-diff-refine-hunk t)
   (setq magit-commit-extend-override-date t))
