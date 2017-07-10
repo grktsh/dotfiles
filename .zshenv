@@ -5,6 +5,8 @@ export LANG=ja_JP.UTF-8
 typeset -U path manpath
 export MANPATH
 
+manpath=(/usr/share/man(N-/) $manpath)
+
 # Homebrew
 path=(/usr/local/bin(N-/) /usr/local/sbin(N-/) $path)
 manpath=(/usr/local/share/man(N-/) $manpath)
