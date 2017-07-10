@@ -322,14 +322,14 @@
   (direnv-mode))
 
 (use-package solarized-light-theme
-  :init
+  :config
   (setq solarized-use-variable-pitch nil)
   (setq solarized-height-minus-1 1.0)
   (setq solarized-height-plus-1 1.0)
   (setq solarized-height-plus-2 1.0)
   (setq solarized-height-plus-3 1.0)
   (setq solarized-height-plus-4 1.0)
-  :config
+
   (load-theme 'solarized-light t)
 
   (custom-theme-set-faces
@@ -400,11 +400,11 @@
   :init
   (unless (featurep 'elscreen-start)
     (autoload 'elscreen-start "elscreen" nil t))
+  :config
   (setq elscreen-tab-display-control nil)
   (setq elscreen-tab-display-kill-screen nil)
   (setq elscreen-display-tab nil)
   (setq elscreen-display-screen-number nil)
-  :config
   (push (cons "^navi2ch-" "Navi2ch") elscreen-mode-to-nickname-alist)
   (elscreen-rebuild-mode-to-nickname-alist)
   (elscreen-start))
@@ -436,9 +436,8 @@
 
 (use-package go-mode
   :defer t
-  :init
-  (setq gofmt-command "goimports")
   :config
+  (setq gofmt-command "goimports")
   (defun my-go-mode-hook ()
     (setq tab-width 4))
   (add-hook 'go-mode-hook 'my-go-mode-hook)
@@ -553,9 +552,9 @@
   :init
   (autoload 'howm-menu "howm" "Hitori Otegaru Wiki Modoki" t)
   (bind-key "\C-c , ," 'howm-menu)
-  (setq howm-view-title-header "#")
   :config
   (setq howm-menu-lang 'ja)
+  (setq howm-view-title-header "#")
   (setq howm-file-name-format "%Y/%m/%Y-%m-%d.md")
   (setq howm-template (concat howm-view-title-header
 			      " %title%cursor\n%date\n\n")))
@@ -688,17 +687,15 @@
     (autoload 'navbarx-ddskk "navbarx-ddskk"))
   (unless (featurep 'navbarx-eyebrowse)
     (autoload 'navbarx-eyebrowse "navbarx-eyebrowse"))
-
+  :config
   (setq navbar-item-list
 	(list
 	 (and (locate-library "elscreen") 'navbarx-elscreen)
 	 'navbarx-glue
 	 (and (locate-library "mew") 'navbarx-mew)
 	 'navbarx-time))
-
   (setq display-time-day-and-date t)
   (setq display-time-24hr-format t)
-  :config
   (set-face-background 'navbar-item "#859900")
   (display-time-mode)
   (navbar-mode))
