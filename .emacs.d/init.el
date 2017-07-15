@@ -552,9 +552,10 @@
   :init
   (autoload 'howm-menu "howm" "Hitori Otegaru Wiki Modoki" t)
   (bind-key "\C-c , ," 'howm-menu)
+  ;; Need to set howm-view-title-header before howm is loaded
+  (setq howm-view-title-header "#")
   :config
   (setq howm-menu-lang 'ja)
-  (setq howm-view-title-header "#")
   (setq howm-file-name-format "%Y/%m/%Y-%m-%d.md")
   (setq howm-template (concat howm-view-title-header
 			      " %title%cursor\n%date\n\n")))
