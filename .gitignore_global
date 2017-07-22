@@ -11,6 +11,7 @@ GTAGS
 
 .idea/
 
+.direnv/
 .env
 .envrc
 
