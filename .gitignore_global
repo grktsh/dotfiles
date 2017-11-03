@@ -10,6 +10,7 @@ GTAGS
 .tern-port
 
 .idea/
+.vscode/
 
 .direnv/
 .env
