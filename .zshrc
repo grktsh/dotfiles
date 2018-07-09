@@ -94,6 +94,10 @@ if which direnv > /dev/null; then
     alias tmux='direnv exec / tmux';
 fi
 
+if which pipenv > /dev/null; then
+    eval "$(pipenv --completion)"
+fi
+
 # added by travis gem
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
