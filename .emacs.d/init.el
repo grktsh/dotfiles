@@ -18,7 +18,8 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 
@@ -186,20 +187,18 @@
 (global-font-lock-mode 1)
 
 ;; emacs-lisp
-(use-package ert-async
-  :config
-  (remove-hook 'emacs-lisp-mode-hook 'ert--activate-font-lock-keywords)
-  (add-hook 'emacs-lisp-mode-hook 'ert-async-activate-font-lock-keywords))
+;; (use-package ert-async
+;;   :config
+;;   (remove-hook 'emacs-lisp-mode-hook 'ert--activate-font-lock-keywords)
+;;   (add-hook 'emacs-lisp-mode-hook 'ert-async-activate-font-lock-keywords))
 (add-to-list 'auto-mode-alist '("/Cask\\'" . emacs-lisp-mode))
 (add-hook 'emacs-lisp-mode-hook 'outline-minor-mode)
 
 (use-package flyspell
   :if (executable-find "aspell")
-  :defer t
   :diminish flyspell-mode
-  :init
-  (add-hook 'prog-mode-hook 'flyspell-prog-mode)
-  (add-hook 'git-commit-mode-hook 'flyspell-mode))
+  :hook ((prog-mode . flyspell-prog-mode)
+	 (git-commit-mode . flyspell-mode)))
 
 ;; vc
 (remove-hook 'find-file-hook 'vc-find-file-hook)
@@ -335,8 +334,6 @@
    'solarized-light
    '(elscreen-tab-current-screen-face ((t :inherit mode-line :weight bold)))
    '(elscreen-tab-other-screen-face ((t :inherit mode-line-inactive)))
-   ;; '(helm-ff-dotted-directory ((t :inherit helm-ff-directory)))
-   ;; '(helm-source-header ((t :inherit mode-line)))
    )
 
   (set-face-attribute 'header-line nil :box nil)
@@ -360,29 +357,18 @@
     (set-face-attribute 'show-paren-match nil
 			:weight 'unspecified)))
 
-(use-package super-save
-  :diminish super-save-mode
-  :init
-  (setq auto-save-default nil)
-  :config
-  (setq super-save-idle-duration 1)
-  (setq super-save-auto-save-when-idle t)
-  (add-to-list 'super-save-triggers "elscreen-goto")
-  (super-save-mode 1))
-
 (use-package aggressive-indent
-  :defer t
+  :ensure t
   :diminish aggressive-indent-mode
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'aggressive-indent-mode))
+  :hook (emacs-lisp-mode . aggressive-indent-mode))
 
 (use-package company
+  :ensure t
   :diminish company-mode
-  :defer t
-  :init
-  (add-hook 'after-init-hook 'global-company-mode))
+  :hook (after-init . global-company-mode))
 
 (use-package dabbrev-highlight)
+
 (use-package "dabbrev-ja")
 
 (use-package direx
@@ -409,9 +395,8 @@
   (elscreen-start))
 
 (use-package flycheck
-  :defer t
-  :init
-  (add-hook 'prog-mode-hook 'flycheck-mode)
+  :ensure t
+  :hook (prog-mode . flycheck-mode)
   :config
   (bind-key "M-n" 'flycheck-next-error flycheck-mode-map)
   (bind-key "M-p" 'flycheck-previous-error flycheck-mode-map)
@@ -453,20 +438,23 @@
   (add-hook 'haskell-mode-hook #'interactive-haskell-mode))
 
 (use-package helm-config
+  :ensure helm
   :diminish helm-mode
   :init
   (bind-key "C-x b" 'helm-mini)
 
   ;; emacs-helm.sh
+  (helm-mode 1)
   (bind-key [remap find-file] 'helm-find-files)
   (bind-key [remap occur] 'helm-occur)
   (bind-key [remap list-buffers] 'helm-buffers-list)
-  (bind-key [remap completion-at-point] 'helm-lisp-completion-at-point
-	    lisp-interaction-mode-map)
-  (bind-key [remap completion-at-point] 'helm-lisp-completion-at-point
-	    emacs-lisp-mode-map)
-
-  (helm-mode 1)
+  (bind-key [remap dabbrev-expand] 'helm-dabbrev)
+  (bind-key [remap execute-extended-command] 'helm-M-x)
+  (unless (boundp 'completion-in-region-function)
+    (bind-key [remap completion-at-point] 'helm-lisp-completion-at-point
+	      lisp-interaction-mode-map)
+    (bind-key [remap completion-at-point] 'helm-lisp-completion-at-point
+	      emacs-lisp-mode-map))
 
   (use-package popwin
     :config
@@ -614,12 +602,6 @@
 		(lambda ()
 		  (define-key tern-mode-keymap "@" #'terndoc-insert-tag))))))
 
-(if (and (eq system-type 'darwin)
-	 (featurep 'htmlize))
-    (use-package mac-print-mode))
-
-(autoload 'mac-print-buffer "mac-print-mode" nil t)
-
 (use-package magit
   :defer t
   :init
@@ -688,6 +670,37 @@
   (unless (featurep 'navbarx-eyebrowse)
     (autoload 'navbarx-eyebrowse "navbarx-eyebrowse"))
   :config
+  (defun navbar-make-window (&optional frame)
+    (unless frame
+      (setq frame (selected-frame)))
+    (with-selected-frame frame
+      (let* ((buffer (navbar-buffer-create frame))
+  	     (window (display-buffer-in-side-window buffer '((side . top)))))
+  	(set-window-fringes window 0 0)
+  	(set-window-display-table window navbar-display-table)
+  	(set-window-parameter window 'delete-window 'ignore)
+  	(set-window-parameter window 'no-other-window t)
+  	(set-window-parameter window 'navbar-window t)
+  	window)))
+  (defun navbar-display (item-list buffer)
+    "Display serialized ITEM-LIST in BUFFER."
+    (let* ((window (or (navbar-window)
+		       (navbar-make-window)))
+	   (values (navbar--serialize item-list))
+	   (strings (cl-loop for value in values
+			     when (stringp value)
+			     collect value)))
+      (when window
+	(unless (equal values strings)
+	  (setq strings (navbar--expand-glues
+			 values strings window)))
+	(with-current-buffer buffer
+	  (let (deactivate-mark)
+	    (erase-buffer)
+	    (insert (apply #'concat strings))))
+	(with-selected-window window
+	  (shrink-window-if-larger-than-buffer)))))
+  (setq window-min-height 1)
   (setq navbar-item-list
 	(list
 	 (and (locate-library "elscreen") 'navbarx-elscreen)
@@ -721,18 +734,16 @@
   (setq recentf-auto-cleanup 10)
   (run-with-idle-timer 60 t 'recentf-save-list)
 
-  (use-package shut-up
-    :config
-    (defadvice recentf-save-list (around my/shut-up activate)
-      (shut-up
-	ad-do-it))
-    (defadvice recentf-cleanup (around my/shut-up activate)
-      (shut-up
-	ad-do-it)))
+  ;; (use-package shut-up
+  ;;   :config
+  ;;   (defadvice recentf-save-list (around my/shut-up activate)
+  ;;     (shut-up
+  ;; 	ad-do-it))
+  ;;   (defadvice recentf-cleanup (around my/shut-up activate)
+  ;;     (shut-up
+  ;; 	ad-do-it)))
 
   (use-package recentf-ext))
-
-(use-package savekill)
 
 (use-package skk
   :defer t
@@ -753,8 +764,15 @@
   :init
   (setq inferior-lisp-program "ccl64"))
 
-;; (auto-install-from-url "http://github.com/imakado/emacs-smartchr/raw/master/smartchr.el")
-(use-package smartchr)
+(use-package super-save
+  :diminish super-save-mode
+  :init
+  (setq auto-save-default nil)
+  :config
+  (setq super-save-idle-duration 1)
+  (setq super-save-auto-save-when-idle t)
+  (add-to-list 'super-save-triggers "elscreen-goto")
+  (super-save-mode 1))
 
 (use-package web-mode
   :defer t
