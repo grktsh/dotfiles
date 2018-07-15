@@ -171,12 +171,11 @@
 (setq use-default-font-for-symbols nil)
 (cond
  ((memq window-system '(ns mac))
-  (set-face-attribute 'default nil :family "Menlo" :height 120)
+  (set-face-attribute 'default nil :family "SF Mono" :height 120)
   (let ((font-spec (font-spec :family "Hiragino Kaku Gothic ProN" :size 14)))
     (dolist (charset (get-language-info "Japanese" 'charset))
       (set-fontset-font nil charset font-spec)))
-  ;; (set-fontset-font nil 'latin "Menlo")
-  (set-fontset-font nil 'greek "Menlo")))
+  (set-fontset-font nil 'greek "SF Mono")))
 
 ;; frame size
 (add-to-list 'default-frame-alist
@@ -343,7 +342,7 @@
   (set-face-attribute 'header-line nil :box nil)
   (set-face-attribute 'mode-line nil :box nil)
   (set-face-attribute 'mode-line-inactive nil :box nil)
-  (set-face-attribute 'fixed-pitch nil :family "Menlo")
+  (set-face-attribute 'fixed-pitch nil :family "SF Mono")
 
   (use-package whitespace
     :defer t
