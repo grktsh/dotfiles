@@ -102,6 +102,6 @@ fi
 [ -f $HOME/.travis/travis.sh ] && source $HOME/.travis/travis.sh
 
 # The next line enables shell command completion for gcloud.
-if [ -f '$HOME/.local/share/google-cloud-sdk/completion.zsh.inc' ]; then
-    source '$HOME/.local/share/google-cloud-sdk/completion.zsh.inc';
+if [ -f $HOME/.local/share/google-cloud-sdk/completion.zsh.inc ]; then
+    source $HOME/.local/share/google-cloud-sdk/completion.zsh.inc;
 fi
