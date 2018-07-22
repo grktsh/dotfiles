@@ -16,6 +16,8 @@ GTAGS
 .env
 .envrc
 
+.venv/
+
 *.pbxuser
 !default.pbxuser
 *.mode1v3
