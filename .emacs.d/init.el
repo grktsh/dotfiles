@@ -448,7 +448,7 @@
   (bind-key [remap find-file] 'helm-find-files)
   (bind-key [remap occur] 'helm-occur)
   (bind-key [remap list-buffers] 'helm-buffers-list)
-  (bind-key [remap dabbrev-expand] 'helm-dabbrev)
+  ;; (bind-key [remap dabbrev-expand] 'helm-dabbrev)
   (bind-key [remap execute-extended-command] 'helm-M-x)
   (unless (boundp 'completion-in-region-function)
     (bind-key [remap completion-at-point] 'helm-lisp-completion-at-point
