@@ -771,7 +771,7 @@
   :config
   (setq super-save-idle-duration 1)
   (setq super-save-auto-save-when-idle t)
-  (add-to-list 'super-save-triggers "elscreen-goto")
+  (add-to-list 'super-save-triggers 'elscreen-goto)
   (super-save-mode 1))
 
 (use-package web-mode
